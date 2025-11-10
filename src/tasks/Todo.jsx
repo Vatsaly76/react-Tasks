@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Todo = () => {
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [mainTask, setMainTask] = useState([])
+
+  useEffect(() => {
+    document.title = "Todo List | React Tasks";
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
