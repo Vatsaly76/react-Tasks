@@ -1,26 +1,68 @@
 import axios from "axios"
-import { useState } from "react"
+import 'remixicon/fonts/remixicon.css'
+import { useEffect, useState } from "react"
 
 const GalleryProject = () => {
     const [Userdata, setUserdata] = useState([])
+    const [page, setPage] = useState(6)
 
     const getData = async () => {
-        const response = await axios.get('https://picsum.photos/v2/list?page=2&limit=10')
+        const response = await axios.get(`https://picsum.photos/v2/list?page=${page}&limit=15`)
         setUserdata(response.data)
         console.log(response.data);
     }
+    
+    useEffect(() => {
+        document.title = "Gallery Project | Axios"
+        getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page])
+
+    let printUserData = null;
+
+    if (Userdata.length > 0) {
+        printUserData = Userdata.map((user,idx) => {
+            return (
+                <div key={idx} className="p-4 m-4 rounded-2xl bg-white shadow-lg hover:scale-105 transition-transform duration-700 hover:bg-gray-500">
+                    <img src={user.download_url} alt={user.author} className="w-full h-64 object-cover mb-2" />
+                    <h2 className="text-lg font-bold italic text-center">{user.author}</h2>
+                    {/* <p>ID: {user.id}</p>
+                    <p>Width: {user.width}</p>
+                    <p>Height: {user.height}</p> */}
+                </div>
+            )
+        })
+    }
 
     return (
-        <div>
-            <button
-                onClick={getData}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >Click me</button>
-            <div>
-                { }
+        <div className="p-8 bg-gray-200 min-h-screen">
+            <h1 className="text-3xl font-bold mb-4">Gallery Project using Axios</h1>
+            
+            {/* Pagination Buttons */}
+            <div className="flex justify-center mt-2 text-xl space-x-4">
+                <button 
+                onClick={() => {
+                    if(page > 1){
+                        setPage(page - 1);
+                    }
+                }}
+                className="p-3 bg-gray-500 font-semibold text-white rounded-lg cursor-pointer hover:bg-gray-400 hover:scale-105 transition-transform duration-300">
+                    <i class="ri-arrow-left-line"></i>
+                    Prev</button>
+                <button
+                onClick={() => {
+                    setPage(page + 1);
+                }}
+                 className="p-3 bg-gray-500 font-semibold text-white rounded-lg cursor-pointer hover:bg-gray-400 hover:scale-105 transition-transform duration-300">Next
+                 <i class="ri-arrow-right-line"></i></button>
             </div>
+
+
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {printUserData}
+            </div>
+            
         </div>
     )
 }
-
 export default GalleryProject

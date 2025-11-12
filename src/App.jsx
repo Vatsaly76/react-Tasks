@@ -6,7 +6,7 @@ import GalleryProject from './tasks/GalleryProject.jsx'
 
 const App = () => {
   return (
-    <div className='min-h-screen bg-gray-500'>
+    <div className='min-h-screen bg-gray-500/10'>
       {/* <Todo />       */}
       {/* <WeatherApp /> */}
       {/* <JokeGenerator /> */}
